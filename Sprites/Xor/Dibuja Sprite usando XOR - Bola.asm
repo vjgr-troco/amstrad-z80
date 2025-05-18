@@ -2,26 +2,27 @@
 ; SPRITE XOR DEMO - MODO 0 - AMSTRAD CPC
 ; vjgr-troco - trocoloco  
 ;---------------------------------------
-org &1000
+
+org #1000
 
 start:
 
     xor a
-    call &bc0e          ; establece modo 0
+    call #bc0e          ; establece modo 0
     
     di
-    ld hl,&c9fb	        ; desactiva firmware
-    ld (&0038),hl
+    ld hl,#c9fb	        ; desactiva firmware
+    ld (#0038),hl
     ei
 
     ld hl,paleta        ; carga paleta de colores
     call inicializar_paleta
 
 
-    ld bc,&bc0c         ; memoria de video en #4000
+    ld bc,#bc0c         ; memoria de video en #4000
     out (c),c
     inc b
-    ld a,&10		
+    ld a,#10		
     out (c),a
     dec b
     inc c
@@ -33,7 +34,7 @@ start:
  
 main:
 
-    ld hl,&61A0         ; direccion donde se imprimira sprite
+    ld hl,#61A0         ; direccion donde se imprimira sprite
     ld de,Bola0		    ; datos sprite
    
     call draw_sprite_xor_mode0
@@ -70,7 +71,7 @@ draw_sprite_byte:	; pinta linea
     ld a,(de): xor (hl): ld (hl),a : inc de: inc hl
     ld a,(de): xor (hl): ld (hl),a : inc de: inc hl
     add hl,sp		    ; 2048 (linea abajo) - 8 (ya avanzados) = 2040
-    ld a,h : and &38	; ajusta direccion memoria para pantalla en #4000
+    ld a,h : and #38	; ajusta direccion memoria para pantalla en #4000
     jr nz,no_wrap
     ld bc,80-#4000	    ; correccion de bloque en la RAM de video CPC
     add hl,bc
@@ -86,7 +87,7 @@ no_wrap:
 inicializar_paleta:
     ld hl,paleta+16			
 set_colores:
-    ld bc,&7F10
+    ld bc,#7F10
 bucle_colores:
     ld a,(hl)
     dec hl
@@ -124,22 +125,22 @@ pulsa_espacio:
 ;--------------------------------------
 
 .Bola0
-defb &00,&04,&F3,&08,&00    ; line 0
-defb &00,&F3,&F3,&F3,&00    ; line 1
-defb &10,&F3,&F3,&F3,&20    ; line 2
-defb &10,&F3,&F3,&F3,&20    ; line 3
-defb &F3,&F3,&F3,&F3,&F3    ; line 4
-defb &F3,&F3,&0C,&F3,&F3    ; line 5
-defb &59,&A6,&24,&59,&A6    ; line 6
-defb &59,&A6,&24,&59,&A6    ; line 7
-defb &59,&A6,&0C,&59,&A6    ; line 8
-defb &59,&A6,&0C,&59,&A6    ; line 9
-defb &F3,&F3,&0C,&F3,&F3    ; line 10
-defb &F3,&F3,&F3,&F3,&F3    ; line 11
-defb &10,&F3,&F3,&F3,&20    ; line 12
-defb &10,&F3,&F3,&F3,&20    ; line 13
-defb &00,&F3,&F3,&F3,&00    ; line 14
-defb &00,&04,&F3,&08,&00    ; line 15
+defb #00,#04,#F3,#08,#00    ; line 0
+defb #00,#F3,#F3,#F3,#00    ; line 1
+defb #10,#F3,#F3,#F3,#20    ; line 2
+defb #10,#F3,#F3,#F3,#20    ; line 3
+defb #F3,#F3,#F3,#F3,#F3    ; line 4
+defb #F3,#F3,#0C,#F3,#F3    ; line 5
+defb #59,#A6,#24,#59,#A6    ; line 6
+defb #59,#A6,#24,#59,#A6    ; line 7
+defb #59,#A6,#0C,#59,#A6    ; line 8
+defb #59,#A6,#0C,#59,#A6    ; line 9
+defb #F3,#F3,#0C,#F3,#F3    ; line 10
+defb #F3,#F3,#F3,#F3,#F3    ; line 11
+defb #10,#F3,#F3,#F3,#20    ; line 12
+defb #10,#F3,#F3,#F3,#20    ; line 13
+defb #00,#F3,#F3,#F3,#00    ; line 14
+defb #00,#04,#F3,#08,#00    ; line 15
 
 ; colores
-paleta 	db &55,&54,&46,&40,&4B,&4C,&57,&53,&5E,&5C,&56,&4E,&5D,&4A,&5B,&52
+paleta 	db #55,#54,#46,#40,#4B,#4C,#57,#53,#5E,#5C,#56,#4E,#5D,#4A,#5B,#52
