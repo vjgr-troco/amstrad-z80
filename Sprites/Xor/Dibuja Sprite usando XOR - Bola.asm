@@ -63,7 +63,7 @@ draw_sprite_xor_mode0:
     ld a,16             ; 16 lineas del sprite
 next_sprite_line:
     ex af,af' 
-;    ld b,8              ; 8 bytes por linea
+
 draw_sprite_byte:	; pinta linea
     ld a,(de): xor (hl): ld (hl),a : inc de: inc hl
     ld a,(de): xor (hl): ld (hl),a : inc de: inc hl
